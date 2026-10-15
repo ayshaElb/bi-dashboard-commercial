@@ -1,0 +1,26 @@
+﻿# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# dbt
+target/
+dbt_packages/
+logs/
+profiles.yml
+
+# Power BI
+*.pbix.backup
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

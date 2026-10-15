@@ -1,0 +1,60 @@
+﻿version: 2
+
+models:
+  - name: fct_sales
+    description: "Fact table recording commercial deals and invoiced revenues with margin calculations."
+    columns:
+      - name: sale_id
+        description: "Primary key for the sales deal."
+        tests:
+          - unique
+          - not_null
+      - name: deal_status
+        description: "Status of the deal (won, lost, open)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['won', 'lost', 'open', 'negotiation', 'lead']
+      - name: actual_revenue
+        description: "Realized invoiced revenue or estimated deal amount."
+        tests:
+          - not_null
+      - name: gross_margin
+        description: "Gross margin in absolute currency."
+
+  - name: dim_clients
+    description: "Dimension table consolidating CRM contacts with client lifetime value and RFM segmentation."
+    columns:
+      - name: client_id
+        description: "Unique client ID."
+        tests:
+          - unique
+          - not_null
+      - name: client_segment
+        description: "Customer segment based on lifetime spend."
+        tests:
+          - accepted_values:
+              values: ['Enterprise', 'Mid-Market', 'SMB', 'Prospect']
+
+  - name: dim_products
+    description: "Dimension table detailing product catalog, standard costs, and ABC Pareto classification."
+    columns:
+      - name: product_code
+        description: "Unique SKU / Product code."
+        tests:
+          - unique
+          - not_null
+      - name: abc_class
+        description: "Pareto revenue classification (A=top 80%, B=15%, C=tail 5%)."
+        tests:
+          - accepted_values:
+              values: ['A', 'B', 'C']
+
+  - name: dim_date
+    description: "Calendar dimension supporting Power BI time-intelligence (YTD, MTD, YoY)."
+    columns:
+      - name: date_id
+        description: "Primary key date."
+        tests:
+          - unique
+          - not_null

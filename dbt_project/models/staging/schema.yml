@@ -1,0 +1,56 @@
+﻿version: 2
+
+sources:
+  - name: raw
+    description: Raw data extracted from CRM, ERP and Google Sheets
+    schema: public
+    tables:
+      - name: raw_crm_deals
+        description: HubSpot CRM deals
+        columns:
+          - name: deal_id
+            tests: [unique, not_null]
+      - name: raw_crm_contacts
+        description: HubSpot CRM contacts
+        columns:
+          - name: contact_id
+            tests: [unique, not_null]
+      - name: raw_erp_invoices
+        description: SAP B1 invoice headers
+        columns:
+          - name: doc_entry
+            tests: [unique, not_null]
+      - name: raw_erp_invoice_lines
+        description: SAP B1 invoice line items
+      - name: raw_erp_products
+        description: SAP B1 product master data
+        columns:
+          - name: item_code
+            tests: [unique, not_null]
+
+models:
+  - name: stg_crm_deals
+    description: Cleaned CRM deals with derived status and pipeline duration
+    columns:
+      - name: deal_id
+        tests: [unique, not_null]
+      - name: deal_amount
+        tests: [not_null]
+
+  - name: stg_crm_contacts
+    description: Cleaned CRM contacts with standardized names and emails
+    columns:
+      - name: contact_id
+        tests: [unique, not_null]
+
+  - name: stg_erp_invoices
+    description: Joined invoice headers and lines with margin calculations
+    columns:
+      - name: doc_entry
+        tests: [not_null]
+
+  - name: stg_erp_products
+    description: Cleaned product master data
+    columns:
+      - name: product_code
+        tests: [unique, not_null]
